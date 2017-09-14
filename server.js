@@ -1,8 +1,20 @@
 var http = require('http');
+var fs = require('fs');
 
-    var server = http.createServer(function (req, res) {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.end('<h1>Hello World</h1><p>This is my first html page</p>');
-    });
 
-    server.listen(3000);
+var server = http.createServer(function(req, res){
+
+    fs.readFile('big.txt', 'utf-8', function (err, data){
+
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.writeHead(200, {'Content-type' : 'text/json'});
+        res.write(data);
+        res.end();
+
+        console.log('Sendt til browser!');
+   });
+    
+});
+console.log('efter server metode');
+
+server.listen(process.env.PORT || 3003);
